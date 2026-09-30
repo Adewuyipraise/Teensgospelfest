@@ -2,7 +2,7 @@
 
 A single-page landing website for **Teens Gospel Fest 2026**, a creative gospel festival for Christian teenagers to discover, develop, and deploy their God-given gifts for His glory.
 
-![Teens Gospel Fest](bg.jpg)
+![Teens Gospel Fest](logo.png)
 
 ---
 
