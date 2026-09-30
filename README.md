@@ -258,5 +258,3 @@ Tagline: *Discover your gift. Create for Christ. Show forth His beauty.*
 ---
 
 **Jesus Changes Teens' Lives!**
-```
-
