@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teens Gospel Fest 2026 — Discover. Develop. Celebrate.</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Open Sans', sans-serif; }
+        h1, h2, h3, .font-heading { font-family: 'Montserrat', sans-serif; }
+
+        /* HERO WITH BACKGROUND IMAGE */
+        .hero-bg {
+            position: relative;
+            overflow: hidden;
+            background-color: #0f172a; /* fallback if image fails */
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* subtle parallax on desktop */
+        }
+
+        /* Dark overlay for text readability */
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(15, 23, 42, 0.85) 0%,
+                rgba(15, 23, 42, 0.7) 40%,
+                rgba(15, 23, 42, 0.9) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Subtle colored glow on top of overlay */
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(250, 204, 21, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Make sure hero content sits above the overlay */
+        .hero-bg > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Disable fixed attachment on mobile (iOS bug) */
+        @media (max-width: 768px) {
+            .hero-bg {
+                background-attachment: scroll;
+            }
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(250, 204, 21, 0.4), 0 0 40px rgba(250, 204, 21, 0.2);
+        }
+
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.4);
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #facc15, transparent);
+        }
+
+        .pulse-glow { animation: pulse 3s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal-content {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 1rem;
+            width: 100%;
+            max-width: 640px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalIn 0.25s ease-out;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-content iframe {
+            width: 100%;
+            min-height: 580px;
+            border: none;
+            border-radius: 0 0 1rem 1rem;
+        }
+
+        /* Custom scrollbar for modal */
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-track { background: #0f172a; }
+        .modal-content::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-slate-950 text-white">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full z-50 bg-slate-950/70 backdrop-blur-lg border-b border-slate-800/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-14"><a href="#top">
+                <div class="flex items-center">
+                    <img src="logo.png" alt="Logo" class="w-12 h-12 mr-2">
+                    <span class="text-base font-extrabold tracking-tight">
+                        <span class="text-white">TEENS</span>
+                        <span class="text-yellow-400">GOSPEL</span>
+                        <span class="text-white">FEST</span>
+                    </span>
+                </div></a>
+                <div class="hidden md:flex items-center space-x-6 text-xs font-semibold uppercase tracking-wider">
+                    <a href="#about" class="text-slate-300 hover:text-yellow-400 transition">About</a>
+                    <a href="#experience" class="text-slate-300 hover:text-yellow-400 transition">Experience</a>
+                    <a href="#programs" class="text-slate-300 hover:text-yellow-400 transition">Programs</a>
+                    <button onclick="openModal()" class="bg-yellow-400 text-black px-4 py-2 rounded-full hover:bg-yellow-300 transition">Get Involved</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="top" class="hero-bg min-h-screen flex items-center justify-center px-4 pt-20 pb-16">
+        <div class="text-center max-w-4xl mx-auto">
+            <!-- Location & Date -->
+            <p class="text-yellow-400 font-bold text-xs tracking-[0.25em] uppercase mb-5">
+                Nigeria • December 2026
+            </p>
+
+            <!-- Main Title -->
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-5">
+                <span class="block text-white">Discover.</span>
+                <span class="block text-yellow-400 text-glow">Develop.</span>
+                <span class="block text-white">Celebrate.</span>
+            </h1>
+
+            <!-- Sub-headline -->
+            <p class="text-base md:text-lg text-slate-200 max-w-xl mx-auto mb-8 leading-relaxed">
+                A creative gospel festival for Christian teenagers to discover, develop, and deploy their God-given gifts for His glory.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button onclick="openModal()" class="bg-yellow-400 text-black font-bold text-sm py-3 px-7 rounded-full hover:bg-yellow-300 transition transform hover:scale-105 shadow-lg shadow-yellow-400/20">
+                    Join the Waitlist
+                </button>
+                <a href="#about" class="bg-transparent border border-white/30 hover:border-yellow-400 hover:text-yellow-400 text-white font-semibold text-sm py-3 px-7 rounded-full transition backdrop-blur-sm">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- STATS BAR -->
+    <section class="bg-slate-900 border-y border-slate-800 py-8 px-4">
+        <div class="max-w-4xl mx-auto grid grid-cols-3 gap-6 text-center">
+            <div>
+                <p class="text-2xl md:text-3xl font-extrabold text-yellow-400 mb-1">1</p>
+                <p class="text-slate-400 text-[10px] md:text-xs font-semibold uppercase tracking-wider">Day of Creativity</p>
+            </div>
+            <div>
+                <p class="text-2xl md:text-3xl font-extrabold text-yellow-400 mb-1">8+</p>
+                <p class="text-slate-400 text-[10px] md:text-xs font-semibold uppercase tracking-wider">Creative Categories</p>
+            </div>
+            <div>
+                <p class="text-2xl md:text-3xl font-extrabold text-yellow-400 mb-1">100+</p>
+                <p class="text-slate-400 text-[10px] md:text-xs font-semibold uppercase tracking-wider">Teen Creatives</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- THREE PILLARS -->
+    <section class="bg-slate-950 py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-5">
+                <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 card-hover">
+                    <div class="text-3xl mb-3">🎤</div>
+                    <h3 class="text-base font-bold text-white mb-2">Gospel Music & Worship</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">A platform for teen singers and instrumentalists to lead the generation in praise.</p>
+                </div>
+                <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 card-hover">
+                    <div class="text-3xl mb-3">🎭</div>
+                    <h3 class="text-base font-bold text-white mb-2">Creative Arts Showcase</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Drama, dance, spoken word, and visual arts that communicate the Gospel creatively.</p>
+                </div>
+                <div class="bg-slate-900 rounded-xl p-6 border border-slate-800 card-hover">
+                    <div class="text-3xl mb-3">🤝</div>
+                    <h3 class="text-base font-bold text-white mb-2">Fellowship & Mentorship</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Connecting teens with mentors and believers who will help them grow in gift and faith.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT / MISSION & VISION -->
+    <section id="about" class="bg-slate-900 py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-yellow-400 font-bold text-xs uppercase tracking-[0.25em] mb-3">About the Festival</p>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4">Raising a Bold Generation of Creative Christian Teens</h2>
+                <div class="section-divider w-16 mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+                <!-- Mission -->
+                <div class="bg-slate-950 rounded-xl p-6 md:p-8 border-l-2 border-yellow-400">
+                    <h3 class="text-sm font-extrabold text-yellow-400 mb-3 uppercase tracking-wider">Our Mission</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        To inspire and equip Christian teenagers to discover, develop, and deploy their God-given creative gifts as powerful tools to express their faith, communicate God's Word, and spread the Gospel.
+                    </p>
+                    <p class="italic text-blue-300/70 text-xs border-t border-slate-800 pt-3">
+                        "As every man hath received the gift, even so minister the same one to another." — 1 Peter 4:10
+                    </p>
+                </div>
+
+                <!-- Vision -->
+                <div class="bg-slate-950 rounded-xl p-6 md:p-8 border-l-2 border-blue-500">
+                    <h3 class="text-sm font-extrabold text-blue-400 mb-3 uppercase tracking-wider">Our Vision</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        To raise a bold generation of creative Christian teenagers who know Jesus, discover their purpose, and use their gifts to reveal His beauty and impact their generation.
+                    </p>
+                    <p class="italic text-blue-300/70 text-xs border-t border-slate-800 pt-3">
+                        "Let your light so shine before men, that they may see your good works." — Matthew 5:16
+                    </p>
+                </div>
+            </div>
+
+            <!-- Our Simple Call -->
+            <div class="bg-gradient-to-r from-blue-900/40 to-indigo-900/40 rounded-xl p-6 md:p-8 text-center border border-blue-800/30">
+                <p class="text-yellow-400 font-bold text-xs uppercase tracking-[0.25em] mb-3">Our Simple Call</p>
+                <h3 class="text-base md:text-lg font-extrabold text-white leading-snug mb-5 max-w-2xl mx-auto">
+                    KNOW JESUS, DISCOVER YOU AND YOUR GIFT, CREATE BOLDLY AND IMPACT YOUR WORLD LARGELY.
+                </h3>
+                <div class="bg-black/30 p-4 rounded-lg inline-block border border-white/10 max-w-xl">
+                    <p class="text-sm italic text-blue-200">"Let no one despise your youth, but set the believers an example in speech, in conduct, in love, in faith, in purity."</p>
+                    <p class="font-bold text-yellow-400 text-xs mt-2">1 Timothy 4:12</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE / CATEGORIES -->
+    <section id="experience" class="bg-slate-950 py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-yellow-400 font-bold text-xs uppercase tracking-[0.25em] mb-3">Creative Focus</p>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3">What We Celebrate</h2>
+                <p class="text-slate-400 text-sm max-w-lg mx-auto">From gospel music to digital art — every gift has a place.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                <div class="bg-slate-900 rounded-lg p-4 text-center border border-slate-800 card-hover">
+                    <div class="text-2xl mb-2">🎵</div>
+                    <h3 class="font-semibold text-white text-xs md:text-sm">Gospel Music</h3>
+                </div>
+                <div class="bg-slate-900 rounded-lg p-4 text-center border border-slate-800 card-hover">
+                    <div class="text-2xl mb-2">🎺</div>
+                    <h3 class="font-semibold text-white text-xs md:text-sm">Instrumentals</h3>
+                </div>
+                <div class="bg-slate-900 rounded-lg p-4 text-center border border-slate-800 card-hover">
+                    <div class="text-2xl mb-2">💃</div>
+                    <h3 class="font-semibold text-white text-xs md:text-sm">Dance</h3>
+                </div>
+                <div class="bg-slate-900 rounded-lg p-4 text-center border border-slate-800 card-hover">
+                    <div class="text-2xl mb-2">🎭</div>
+                    <h3 class="font-semibold text-white text-xs md:text-sm">Drama</h3>
+                </div>
+                <div class="bg-slate-900 rounded-lg p-4 text-center border border-slate-800 card-hover">
+                    <div class="text-2xl mb-2">🎤</div>
+                    <h3 class="font-semibold text-white text-xs md:text-sm">Spoken Word</h3>
+                </div>
+                <div class="bg-slate-900 rounded-lg p-4 text-center border border-slate-800 card-hover">
+                    <div class="text-2xl mb-2">📖</div>
+                    <h3 class="font-semibold text-white text-xs md:text-sm">Word & Prayer</h3>
+                </div>
+                <div class="bg-slate-900 rounded-lg p-4 text-center border border-slate-800 card-hover">
+                    <div class="text-2xl mb-2">🤝</div>
+                    <h3 class="font-semibold text-white text-xs md:text-sm">Fellowship</h3>
+                </div>
+                <div class="bg-slate-900 rounded-lg p-4 text-center border border-slate-800 card-hover">
+                    <div class="text-2xl mb-2">🎨</div>
+                    <h3 class="font-semibold text-white text-xs md:text-sm">Creative Arts</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAMS -->
+    <section id="programs" class="bg-slate-900 py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-yellow-400 font-bold text-xs uppercase tracking-[0.25em] mb-3">Festival Programs</p>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3">What to Experience</h2>
+                <p class="text-slate-400 text-sm max-w-lg mx-auto">A day of creativity, worship, and connection for the next generation.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-slate-950 rounded-xl p-5 border border-slate-800 card-hover">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-yellow-400/10 text-yellow-400 rounded-lg p-2 text-lg shrink-0">🎶</div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white mb-1">Live Gospel Performances</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed">Teen artists lead the festival in worship through music and song.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-950 rounded-xl p-5 border border-slate-800 card-hover">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-blue-400/10 text-blue-400 rounded-lg p-2 text-lg shrink-0">📚</div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white mb-1">Creative Masterclasses</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed">Practical sessions on music, drama, writing, and media.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-950 rounded-xl p-5 border border-slate-800 card-hover">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-purple-400/10 text-purple-400 rounded-lg p-2 text-lg shrink-0">💬</div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white mb-1">Faith & Purpose Talks</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed">Conversations on purpose, calling, and creative excellence.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-950 rounded-xl p-5 border border-slate-800 card-hover">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-green-400/10 text-green-400 rounded-lg p-2 text-lg shrink-0">🌟</div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white mb-1">Talent Showcase</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed">Emerging creatives present their gifts to peers and mentors.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-950 rounded-xl p-5 border border-slate-800 card-hover">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-pink-400/10 text-pink-400 rounded-lg p-2 text-lg shrink-0">🙏</div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white mb-1">Prayer & Word Sessions</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed">Moments of prayer and Bible study for every young creative.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-950 rounded-xl p-5 border border-slate-800 card-hover">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-orange-400/10 text-orange-400 rounded-lg p-2 text-lg shrink-0">🤝</div>
+                        <div>
+                            <h3 class="text-sm font-bold text-white mb-1">Networking & Fellowship</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed">Connect with other teen creatives and ministries.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-950 py-20 px-4">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4">Ready to Make Your Mark?</h2>
+            <p class="text-sm md:text-base text-slate-300 mb-8 max-w-lg mx-auto">
+                Join the waitlist to receive updates, early access, and exclusive opportunities for Teens Gospel Fest 2026.
+            </p>
+
+            <button onclick="openModal()" class="bg-yellow-400 text-black font-bold text-sm py-3 px-8 rounded-full hover:bg-yellow-300 transition transform hover:scale-105 shadow-lg shadow-yellow-400/20">
+                Join the Waitlist
+            </button>
+
+            <!-- Contact Numbers -->
+            <div class="mt-14 pt-10 border-t border-slate-700/50">
+                <p class="text-yellow-400 font-bold text-xs uppercase tracking-[0.25em] mb-4">For Enquiries, Call</p>
+                <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-semibold text-white">
+                    <span>08161232797</span>
+                    <span>08163611763</span>
+                    <span>08136093359</span>
+                    <span>09025958168</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-10 px-4 border-t border-slate-800">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <p class="text-lg font-extrabold mb-1">
+                        <span class="text-white">TEENS</span>
+                        <span class="text-yellow-400">GOSPEL</span>
+                        <span class="text-white">FEST</span>
+                        <span class="text-slate-500"> 2026</span>
+                    </p>
+                    <p class="text-slate-500 text-xs">Discover your gift. Create for Christ. Show forth His beauty.</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-lg font-extrabold text-yellow-400 pulse-glow">Jesus Changes Teens' Lives!</p>
+                    <p class="text-slate-600 text-[10px] mt-2">© 2026 Teens Gospel Fest. All rights reserved. Designed and Developed by Pesedie Rasheed.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WAITLIST MODAL -->
+    <div id="waitlistModal" class="modal-overlay" onclick="closeModalOutside(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-5 py-4 border-b border-slate-800">
+                <div>
+                    <h3 class="text-base font-extrabold text-white">Join the Waitlist</h3>
+                    <p class="text-slate-400 text-xs mt-0.5">Be the first to know when registration opens.</p>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white transition p-1.5 rounded-lg hover:bg-slate-800" aria-label="Close modal">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Google Form Embed -->
+            <!-- 
+              REPLACE THE src VALUE BELOW WITH YOUR OWN GOOGLE FORM EMBED LINK.
+              
+              HOW TO GET YOUR GOOGLE FORM EMBED LINK:
+              1. Open your Google Form
+              2. Click the "Send" button (top right)
+              3. Click the "<>" (embed) icon
+              4. Copy the URL inside the src="..." attribute
+              5. Paste it below, replacing the placeholder URL
+            -->
+            <iframe 
+                src="https://docs.google.com/forms/d/e/1FAIpQLSf_YOUR_FORM_ID_HERE/viewform?embedded=true"
+                title="Teens Gospel Fest 2026 Waitlist Form"
+                loading="lazy">
+                Loading…
+            </iframe>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('waitlistModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('waitlistModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeModalOutside(event) {
+            if (event.target === document.getElementById('waitlistModal')) {
+                closeModal();
+            }
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
